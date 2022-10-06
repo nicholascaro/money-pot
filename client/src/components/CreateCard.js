@@ -1,3 +1,4 @@
+//TODO: write code
 function CreateCard() {
   return (
     <div className="card">
@@ -5,9 +6,7 @@ function CreateCard() {
         <h1>create</h1>
       </div>
       <div className="card-boy"></div>
-      <div>
-        <p>Button that takes user to form</p>
-      </div>
+      <div></div>
     </div>
   );
 }
