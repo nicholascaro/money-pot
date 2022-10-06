@@ -6,15 +6,15 @@ import Axios from "axios";
 //TODO: add data validation to text field
 function DeleteCard() {
   const [id, setId] = useState("");
-  //TODO: change then [art of api request
+  //TODO: change then part of api request
   //TODO: resolve ERROR: endpoint expecting a map not a string. either change api or change input into a map
-  const deleteMoneyPot = () => {
+  const deleteMoneyPot = async () => {
     console.log(id);
-    Axios.delete("http://localhost:8080/delete", { potId: id }).then(
-      (responce) => {
-        console.log(responce);
-      }
-    );
+    const res = await Axios.delete("http://localhost:8080/delete", {
+      data: { _id: id },
+    });
+
+    console.log(res.data);
   };
 
   return (
