@@ -1,17 +1,18 @@
 import "./App.css";
-import DeleteCard from "./components/DeleteCard";
+import Home from "./components/Home";
+import ViewFound from "./components/ViewFound";
 import FindCard from "./components/FindCard";
-import CreateCard from "./components/CreateCard";
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
   return (
     <div className="App">
-      <h1>Money Pot: Calculator + Manager</h1>
-      <div className="right-container">
-        <DeleteCard />
-        <FindCard />
-        <CreateCard />
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route index element={<Home />} />
+          <Route path="found" element={<ViewFound />} />
+          <Route path="find" element={<FindCard />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
