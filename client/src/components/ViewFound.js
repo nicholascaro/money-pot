@@ -1,7 +1,8 @@
 import { useSearchParams } from "react-router-dom";
 import Axios from "axios";
 import React, { useEffect, useReducer } from "react";
-
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import Box from "@mui/material/Box";
@@ -175,7 +176,7 @@ function ViewFound() {
         />
         <TextField
           id="standard-basic"
-          label="Total Pot Amount"
+          label="Total Pot Amount Per Month"
           variant="outlined"
           multiline={true}
           InputProps={{
@@ -223,7 +224,11 @@ function ViewFound() {
           },
         }}
       >
-        <ButtonGroup variant="outlined" aria-label="outlined button group">
+        <ButtonGroup
+          variant="outlined"
+          disabled="true"
+          aria-label="outlined button group"
+        >
           <Button>Submit Changes</Button>
         </ButtonGroup>
       </Box>
