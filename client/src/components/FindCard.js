@@ -30,6 +30,7 @@ function FindCard() {
           label="Money Pot ID"
           variant="standard"
           required
+          size="small"
           onChange={(event) => {
             setId(event.target.value);
           }}

@@ -1,5 +1,5 @@
 // import "./App.css";
-import "/Users/nicholascaro/Desktop/projects/money-pot/client/src/App.css";
+import "../App.css";
 import CreateCard from "./CreateCard";
 import DeleteCard from "./DeleteCard";
 import FindCard from "./FindCard";
