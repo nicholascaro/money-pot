@@ -57,21 +57,10 @@ function CreateCard() {
       </div>
       <div className="card-boy"></div>
       <div>
-        
-        <TextField
-          id="standard-basic"
-          label="Money Pot Name"
-          variant="standard"
-          required
-          size="small"
-          onChange={(event) => {
-            setName(event.target.value);
-          }}
-          />
           <br />
           <br />
           <Button onClick={goToCreateView} variant="contained">
-            Submit
+            Create
           </Button>
           <Modal
             open={open}
