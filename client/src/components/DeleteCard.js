@@ -14,9 +14,9 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
+  backgroundColor: "#ffffff",
   boxShadow: 24,
+  borderRadius: "20px",
   p: 4,
 };
 
@@ -24,7 +24,6 @@ function DeleteCard() {
   const [id, setId] = useState("");
   const [modalDescription, setModalDescription] = useState("");
   const [open, setOpen] = useState(false);
-  const [idError, setIdError] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -42,12 +41,13 @@ function DeleteCard() {
   };
 
   return (
-    <div className="card">
+    <div className="card card-shadow delete-gradient">
       <div>
-        <h1>delete</h1>
+        <br />
+        <br />
+        <h2>delete</h2>
       </div>
-      <div className="card-boy"></div>
-      <div>
+      <div className="card-body card-shadow">
         <TextField
           id="standard-basic"
           label="Money Pot ID"
@@ -66,16 +66,17 @@ function DeleteCard() {
         <Modal
           open={open}
           onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
+          // aria-labelledby="modal-modal-title"
+          // aria-describedby="modal-modal-description"
         >
-          <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              Deletion Status:
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <Box>
+            <div className="modal-gradient">
+              <h4>Status</h4>
+              <h5>{modalDescription}</h5>
+            </div>
+            {/* <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               {modalDescription}
-            </Typography>
+            </Typography> */}
           </Box>
         </Modal>
       </div>

@@ -1,11 +1,13 @@
 //TODO: write code
 function CreateCard() {
   return (
-    <div className="card">
+    <div className="card card-shadow create-gradient">
       <div>
-        <h1>create</h1>
+        <br />
+        <br />
+        <h2>create</h2>
       </div>
-      <div className="card-boy"></div>
+      <div className="card-body"></div>
       <div></div>
     </div>
   );
