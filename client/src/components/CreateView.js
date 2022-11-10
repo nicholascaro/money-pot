@@ -23,22 +23,6 @@ function CreateView() {
 
   let initialState = {};
 
-  const [message, setMessage] = useState('');
-
-  const [updated, setUpdated] = useState(message);
-
-  const handleChange = (event) => {
-    setMessage(event.target.value);
-  };
-
-  const handleClick = (event) => {
-    //  "message" stores input field value
-    setUpdated(message);
-    console.log(message);
-    ParticipantLoop();
-  };
-
-
   const [state, dispatch] = useReducer(reducer, PotObject);
 
   function reducer(state, action) {
@@ -54,14 +38,22 @@ function CreateView() {
     }
   }
 
-  
-
   function InputParticipant() {
     const handleFormChange = (index, event) => {
-      let data = [...inputFields]
-      data[index][event.target] = event.target.value;
+      let data =[...inputFields]
+      data[index][event.target.name] = event.target.value;
       setInputFields(data);
     }
+    const addFields = () => {
+      let newfield = { name: '', date: '' }
+  
+      setInputFields([...inputFields, newfield])
+  }
+  const removeFields = (index) => {
+    let data = [...inputFields];
+    data.splice(index, 1)
+    setInputFields(data)
+}
     const [inputFields, setInputFields] = useState([
       {name: '', date: ''}
     ])
@@ -76,10 +68,13 @@ function CreateView() {
                   label="Participant Name"
                   variant="standard"
                   required
+                  name="name"
                   size="small"
-                  value={input}
+                  value={input.name}
                   onChange={event => handleFormChange(index, event)}
                 />
+                <Button onClick={addFields}> + </Button>
+                <Button onClick={() => removeFields(index)}> - </Button>
               </div>
             )
           })}
@@ -102,56 +97,6 @@ function CreateView() {
     const newValue = e.target.value;
     setInput({ [name]: newValue });
   };
-
-  function ParticipantLoop() {
-    for (let i = 0; i < message; i++) {
-      PotObject.participants.push(i);
-      console.log(i);
-    };
-    PotObject.participants.forEach((element) => {
-      initialState[element] = "";
-    });
-    PotObject.participants.forEach((element) => {
-      InputParticipant(element.value);
-    });
-    const a = PotObject.participants.map((number) => {
-      inputName++;
-      return (
-        <div key={number}>
-          <TextField
-            value={input[inputName]}
-            name={inputName}
-            onChange={handleUserInputChange}
-          ></TextField>
-        </div>
-      )
-    })
-  }
-
-  function ParticipantNumber() {
-
-    return (
-      <div>
-        <TextField
-          id="standard-basic"
-          label="Number of Participants"
-          variant="standard"
-          onChange={handleChange}
-          value={message}
-          required
-          size="small"
-
-        /*for (let i = 0; i++; i <= participantNumber) {
-          InputParticipant(i);
-        };*/
-
-        />
-        <Button onClick={handleClick}>
-          X
-        </Button>
-      </div>
-    );
-  }
 
   return (
     <div>

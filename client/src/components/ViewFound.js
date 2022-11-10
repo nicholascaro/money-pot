@@ -1,8 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import Axios from "axios";
 import React, { useEffect, useReducer } from "react";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import Box from "@mui/material/Box";
@@ -117,6 +115,17 @@ function ViewFound() {
       });
     });
   }, [id]);
+
+  // if (initialValue.pot_object.length === 0) {
+  //   return (
+  //     <div>
+  //       <h1>
+  //         Sorry, money pot could not be found. Please check your id and try
+  //         again.
+  //       </h1>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div>
