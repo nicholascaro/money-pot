@@ -116,6 +116,17 @@ function ViewFound() {
     });
   }, [id]);
 
+  // if (initialValue.pot_object.length === 0) {
+  //   return (
+  //     <div>
+  //       <h1>
+  //         Sorry, money pot could not be found. Please check your id and try
+  //         again.
+  //       </h1>
+  //     </div>
+  //   );
+  // }
+
   return (
     <div>
       <h1> We found your pot!</h1>

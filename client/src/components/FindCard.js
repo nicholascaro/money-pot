@@ -19,12 +19,14 @@ function FindCard() {
   };
 
   return (
-    <div className="card">
+    <div className="card card-shadow find-gradient">
       <div>
-        <h1>find</h1>
+        <br />
+        <br />
+        <h2>find</h2>
       </div>
-      <div className="card-boy"></div>
-      <div>
+      <div></div>
+      <div className="card-body card-shadow">
         <TextField
           id="standard-basic"
           label="Money Pot ID"
