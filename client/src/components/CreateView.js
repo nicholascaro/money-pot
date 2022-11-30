@@ -19,44 +19,55 @@ function CreateView() {
     participants: [],
   };
 
-  console.log(PotObject);
+  function OutputPot() {
+    console.log("Pot object", PotObject);
+  }
 
   let initialState = {};
 
   const [state, dispatch] = useReducer(reducer, PotObject);
 
   function reducer(state, action) {
+    console.log("before switch", action)
+    console.log("Pot object before switch", PotObject)
     switch (action.type) {
       case "field": {
+        console.log("in field", action)
         return {
           ...state,
           [action.fieldName]: action.payload,
         };
       }
       default:
+        console.log("default", state)
         return state;
     }
   }
 
   function InputParticipant() {
+
+    const [inputFields, setInputFields] = useState([
+      {name: '', date: ''}
+    ])
+
     const handleFormChange = (index, event) => {
       let data =[...inputFields]
       data[index][event.target.name] = event.target.value;
       setInputFields(data);
     }
+
     const addFields = () => {
       let newfield = { name: '', date: '' }
   
       setInputFields([...inputFields, newfield])
   }
+
   const removeFields = (index) => {
     let data = [...inputFields];
     data.splice(index, 1)
     setInputFields(data)
 }
-    const [inputFields, setInputFields] = useState([
-      {name: '', date: ''}
-    ])
+
     return (
       <div className="Participant">
         <form>
@@ -83,21 +94,6 @@ function CreateView() {
     );
   }
 
-  const [participantNumber, setParticipantNumber] = useState('');
-
-  function showPartcipantNumber() {
-    console.log(participantNumber)
-  }
-
-  const [input, setInput] = useState(initialState);
-  let inputName = 0;
-
-  const handleUserInputChange = (e) => {
-    const name = e.target.name;
-    const newValue = e.target.value;
-    setInput({ [name]: newValue });
-  };
-
   return (
     <div>
       <h1>New Pot Details</h1>
@@ -115,7 +111,7 @@ function CreateView() {
                 fieldName: "pot_name",
                 payload: event.target.value,
               })
-              console.log(PotObject.pot_name);
+              console.log("name", PotObject.pot_name);
             }}
           />
         </div>
@@ -161,6 +157,7 @@ function CreateView() {
         <Button variant="contained" onClick={dispatch}>
           Submit
         </Button>
+        <OutputPot/>
       </div>
     </div>
   );
