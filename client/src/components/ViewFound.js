@@ -171,9 +171,7 @@ function ViewFound() {
           multiline={true}
           value={contribution_amount}
           InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">USD</InputAdornment>
-            ),
+            startAdornment: <InputAdornment position="start">$</InputAdornment>,
           }}
           onChange={(event) => {
             dispatch({

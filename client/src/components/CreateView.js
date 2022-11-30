@@ -1,72 +1,74 @@
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Axios from "axios";
-import Modal from "@mui/material/Modal";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import { useSearchParams } from "react-router-dom";
-//import { useNavigate } from "react-router-dom";
-import { useNavigate, createSearchParams } from "react-router-dom";
-import React, { useEffect, useReducer } from "react";
+import React, { useReducer } from "react";
+import InputAdornment from "@mui/material/InputAdornment";
 
 function CreateView() {
-
   let PotObject = {
     pot_name: "",
     pot_organizer: "",
-    contribution_amount: 0,
+    contribution_amount: undefined,
+    total_pot_amount: undefined,
     participants: [],
   };
 
-  function OutputPot() {
-    console.log("Pot object", PotObject);
-  }
-
-  let initialState = {};
-
   const [state, dispatch] = useReducer(reducer, PotObject);
 
+  const {
+    pot_name,
+    pot_organizer,
+    contribution_amount,
+    total_pot_amount,
+    particpants,
+  } = state;
+
+  function PostNewPot() {
+    console.log("Pot object", state);
+  }
   function reducer(state, action) {
-    console.log("before switch", action)
-    console.log("Pot object before switch", PotObject)
+    console.log("before switch", action);
     switch (action.type) {
       case "field": {
-        console.log("in field", action)
+        console.log("in field", action);
         return {
           ...state,
           [action.fieldName]: action.payload,
         };
       }
+      case "updateTotal1": {
+        return {
+          ...state,
+          [action.fieldName[0]]: action.payload[0],
+          [action.fieldName[1]]: action.payload[0] * state.participants.length,
+        };
+      }
       default:
-        console.log("default", state)
         return state;
     }
   }
 
   function InputParticipant() {
-
-    const [inputFields, setInputFields] = useState([
-      {name: '', date: ''}
-    ])
+    const [inputFields, setInputFields] = useState([{ name: "", date: "" }]);
 
     const handleFormChange = (index, event) => {
-      let data =[...inputFields]
+      let data = [...inputFields];
       data[index][event.target.name] = event.target.value;
       setInputFields(data);
-    }
+    };
 
     const addFields = () => {
-      let newfield = { name: '', date: '' }
-  
-      setInputFields([...inputFields, newfield])
-  }
+      let newfield = { name: "", date: "" };
 
-  const removeFields = (index) => {
-    let data = [...inputFields];
-    data.splice(index, 1)
-    setInputFields(data)
-}
+      setInputFields([...inputFields, newfield]);
+    };
+
+    const removeFields = (index) => {
+      let data = [...inputFields];
+      data.splice(index, 1);
+      setInputFields(data);
+    };
 
     return (
       <div className="Participant">
@@ -76,18 +78,18 @@ function CreateView() {
               <div key={index}>
                 <TextField
                   id="standard-basic"
-                  label="Participant Name"
+                  label="Name"
                   variant="standard"
                   required
                   name="name"
                   size="small"
                   value={input.name}
-                  onChange={event => handleFormChange(index, event)}
+                  onChange={(event) => handleFormChange(index, event)}
                 />
                 <Button onClick={addFields}> + </Button>
                 <Button onClick={() => removeFields(index)}> - </Button>
               </div>
-            )
+            );
           })}
         </form>
       </div>
@@ -96,7 +98,7 @@ function CreateView() {
 
   return (
     <div>
-      <h1>New Pot Details</h1>
+      <h1>Pot Details</h1>
       <div className="dataFields">
         <div className="potName">
           <TextField
@@ -105,13 +107,14 @@ function CreateView() {
             variant="standard"
             required
             size="small"
+            value={pot_name || ""}
             onChange={(event) => {
               dispatch({
                 type: "field",
                 fieldName: "pot_name",
                 payload: event.target.value,
-              })
-              console.log("name", PotObject.pot_name);
+              });
+              console.log("name", pot_name);
             }}
           />
         </div>
@@ -119,10 +122,11 @@ function CreateView() {
         <div className="organizer">
           <TextField
             id="standard-basic"
-            label="Organizer's name"
+            label="Organizer's Name"
             variant="standard"
             required
             size="small"
+            value={pot_organizer}
             onChange={(event) => {
               dispatch({
                 type: "field",
@@ -136,28 +140,48 @@ function CreateView() {
         <div className="contribution">
           <TextField
             id="standard-basic"
-            label="Contribution Amount"
+            label="Individual Contribution Amount"
             variant="standard"
             required
             size="small"
+            value={contribution_amount || ""}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">$</InputAdornment>
+              ),
+            }}
             onChange={(event) => {
               dispatch({
-                type: "field",
-                fieldName: "contribution_amount",
-                payload: event.target.value,
+                type: "updateTotal1",
+                fieldName: ["contribution_amount", "total_pot_amount"],
+                payload: [event.target.value],
               });
             }}
           />
         </div>
+        <br />
+        <TextField
+          id="standard-basic"
+          variant="standard"
+          InputProps={{
+            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+          }}
+          label="Total Pot Amount"
+          value={total_pot_amount || ""}
+          disabled
+        />
+        <br />
+        <br />
+        <h4>Members</h4>
+        <br />
         <div className="participantContainer">
-          <InputParticipant/>
+          <InputParticipant />
         </div>
         <br></br>
         <br></br>
-        <Button variant="contained" onClick={dispatch}>
+        <Button variant="contained" onClick={PostNewPot}>
           Submit
         </Button>
-        <OutputPot/>
       </div>
     </div>
   );
