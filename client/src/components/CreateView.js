@@ -1,9 +1,9 @@
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { useState } from "react";
 import Axios from "axios";
 import React, { useReducer } from "react";
 import InputAdornment from "@mui/material/InputAdornment";
+import TaskList from "./participantsList";
 
 function CreateView() {
   let PotObject = {
@@ -11,7 +11,14 @@ function CreateView() {
     pot_organizer: "",
     contribution_amount: undefined,
     total_pot_amount: undefined,
-    participants: [],
+    participants: [
+      {
+        index: Math.random(),
+        name: "",
+        date: "",
+        position: "",
+      },
+    ],
   };
 
   const [state, dispatch] = useReducer(reducer, PotObject);
@@ -21,17 +28,12 @@ function CreateView() {
     pot_organizer,
     contribution_amount,
     total_pot_amount,
-    particpants,
+    participants,
   } = state;
 
-  function PostNewPot() {
-    console.log("Pot object", state);
-  }
   function reducer(state, action) {
-    console.log("before switch", action);
     switch (action.type) {
       case "field": {
-        console.log("in field", action);
         return {
           ...state,
           [action.fieldName]: action.payload,
@@ -44,62 +46,100 @@ function CreateView() {
           [action.fieldName[1]]: action.payload[0] * state.participants.length,
         };
       }
+      case "appendToList": {
+        return {
+          ...state,
+          participants: [...state.participants, action.payload],
+        };
+      }
+      case "delete": {
+        return {
+          ...state,
+          participants: state.participants.filter((r) => r !== action.payload),
+        };
+      }
+      case "total": {
+        return {
+          ...state,
+          total_pot_amount:
+            state.participants.length * state.contribution_amount,
+        };
+      }
       default:
         return state;
     }
   }
 
-  function InputParticipant() {
-    const [inputFields, setInputFields] = useState([{ name: "", date: "" }]);
-
-    const handleFormChange = (index, event) => {
-      let data = [...inputFields];
-      data[index][event.target.name] = event.target.value;
-      setInputFields(data);
-    };
-
-    const addFields = () => {
-      let newfield = { name: "", date: "" };
-
-      setInputFields([...inputFields, newfield]);
-    };
-
-    const removeFields = (index) => {
-      let data = [...inputFields];
-      data.splice(index, 1);
-      setInputFields(data);
-    };
-
-    return (
-      <div className="Participant">
-        <form>
-          {inputFields.map((input, index) => {
-            return (
-              <div key={index}>
-                <TextField
-                  id="standard-basic"
-                  label="Name"
-                  variant="standard"
-                  required
-                  name="name"
-                  size="small"
-                  value={input.name}
-                  onChange={(event) => handleFormChange(index, event)}
-                />
-                <Button onClick={addFields}> + </Button>
-                <Button onClick={() => removeFields(index)}> - </Button>
-              </div>
-            );
-          })}
-        </form>
-      </div>
-    );
+  function postPot2() {
+    console.log(state);
+    Axios.post("http://localhost:8080/create", state)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
+
+  const handleChange = (e) => {
+    if (["name", "date", "position"].includes(e.target.name)) {
+      let participants = [...state.participants];
+      participants[e.target.dataset.id][e.target.name] = e.target.value;
+    } else {
+      dispatch({
+        type: "field",
+        fieldName: e.target.name,
+        payload: e.target.value,
+      });
+      // this.setState({ [e.target.name]: e.target.value });
+    }
+  };
+
+  const addNewRow = () => {
+    console.log("new field");
+    let newField = {
+      index: Math.random(),
+      name: "",
+      date: "",
+      position: "",
+    };
+    dispatch({
+      type: "appendToList",
+      fieldName: participants,
+      payload: newField,
+    });
+    dispatch({
+      type: "total",
+    });
+  };
+
+  const handleSubmit = (e) => {
+    // axios.defaults.headers.common["Authorization"] = localStorage.getItem('token');
+    // axios.post("http://localhost:9000/api/task", data).then(res => {
+    //     if(res.data.success) NotificationManager.success(res.data.msg);
+    // }).catch(error => {
+    //     if(error.response.status && error.response.status===400)
+    //     NotificationManager.error("Bad Request");
+    //     else NotificationManager.error("Something Went Wrong");
+    //     this.setState({ errors: error })
+    // });
+  };
+
+  const clickOnDelete = (record) => {
+    dispatch({
+      type: "delete",
+      fieldName: participants,
+      payload: record,
+    });
+    dispatch({
+      type: "total",
+    });
+  };
 
   return (
     <div>
       <h1>Pot Details</h1>
-      <div className="dataFields">
+      <div>
         <div className="potName">
           <TextField
             id="standard-basic"
@@ -114,7 +154,6 @@ function CreateView() {
                 fieldName: "pot_name",
                 payload: event.target.value,
               });
-              console.log("name", pot_name);
             }}
           />
         </div>
@@ -172,17 +211,47 @@ function CreateView() {
         />
         <br />
         <br />
-        <h4>Members</h4>
-        <br />
-        <div className="participantContainer">
-          <InputParticipant />
-        </div>
+        <h4>Add a Person</h4>
         <br></br>
-        <br></br>
-        <Button variant="contained" onClick={PostNewPot}>
-          Submit
-        </Button>
       </div>
+      <div className="content">
+        <form onSubmit={handleSubmit} onChange={handleChange}>
+          <div className="row" style={{ marginTop: 10 }}>
+            <div>
+              <div>
+                <div>
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th className="required">Name</th>
+                        <th className="required">Date</th>
+                        <th>Position</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <TaskList
+                        add={addNewRow}
+                        delete={clickOnDelete.bind(this)}
+                        taskList={participants}
+                      />
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colSpan="7"></td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <br />
+      <Button variant="contained" onClick={postPot2} color="success">
+        Submit
+      </Button>
     </div>
   );
 }
