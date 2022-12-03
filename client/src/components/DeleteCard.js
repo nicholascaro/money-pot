@@ -4,7 +4,6 @@ import { useState } from "react";
 import Axios from "axios";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 
 //TODO: add data validation to text field
 
@@ -27,8 +26,6 @@ function DeleteCard() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  //TODO: change then part of api request
-  //TODO: resolve ERROR: endpoint expecting a map not a string. either change api or change input into a map
   const deleteMoneyPot = async () => {
     console.log(id);
     const res = await Axios.delete("http://localhost:8080/delete", {
