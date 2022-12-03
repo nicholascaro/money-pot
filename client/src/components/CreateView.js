@@ -91,7 +91,6 @@ function CreateView() {
         fieldName: e.target.name,
         payload: e.target.value,
       });
-      // this.setState({ [e.target.name]: e.target.value });
     }
   };
 
@@ -113,17 +112,7 @@ function CreateView() {
     });
   };
 
-  const handleSubmit = (e) => {
-    // axios.defaults.headers.common["Authorization"] = localStorage.getItem('token');
-    // axios.post("http://localhost:9000/api/task", data).then(res => {
-    //     if(res.data.success) NotificationManager.success(res.data.msg);
-    // }).catch(error => {
-    //     if(error.response.status && error.response.status===400)
-    //     NotificationManager.error("Bad Request");
-    //     else NotificationManager.error("Something Went Wrong");
-    //     this.setState({ errors: error })
-    // });
-  };
+  const handleSubmit = (e) => {};
 
   const clickOnDelete = (record) => {
     dispatch({
