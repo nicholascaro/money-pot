@@ -21,7 +21,6 @@ function ViewFound() {
   };
   const [state, dispatch] = useReducer(reducer, initialValue);
 
-  //TODO: figure out how to update the state of the person fields
   const {
     pot_name,
     pot_organizer,
@@ -30,7 +29,6 @@ function ViewFound() {
     particpants,
   } = state;
 
-  //TODO: create cases for keeping track of the state of each const
   function reducer(state, action) {
     switch (action.type) {
       case "init": {
@@ -171,9 +169,7 @@ function ViewFound() {
           multiline={true}
           value={contribution_amount}
           InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">USD</InputAdornment>
-            ),
+            startAdornment: <InputAdornment position="start">$</InputAdornment>,
           }}
           onChange={(event) => {
             dispatch({
