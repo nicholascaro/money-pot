@@ -32,7 +32,6 @@ function ViewFound() {
   function reducer(state, action) {
     switch (action.type) {
       case "init": {
-        console.log(action.payload);
         return {
           ...state,
           [action.fieldName[0]]: action.payload.potName,
@@ -59,7 +58,6 @@ function ViewFound() {
     return (
       <div key={person.name}>
         <br />
-
         <Divider />
         <br />
         <Box
@@ -69,21 +67,18 @@ function ViewFound() {
         >
           {" "}
           <TextField
-            id="standard-basic"
             label={"Person " + i + " Name"}
             variant="outlined"
             value={person.name}
             multiline={true}
           />
           <TextField
-            id="standard-basic"
             label={"Person " + i + " Position"}
             variant="outlined"
             value={person.position}
             multiline={true}
           />
           <TextField
-            id="standard-basic"
             label={"Person " + i + " Date"}
             variant="outlined"
             value={date}
@@ -99,35 +94,32 @@ function ViewFound() {
       params: {
         id: id,
       },
-    }).then((response) => {
-      dispatch({
-        type: "init",
-        fieldName: [
-          "pot_name",
-          "pot_organizer",
-          "contribution_amount",
-          "total_pot_amount",
-          "particpants",
-        ],
-        payload: response.data,
+    })
+      .then((response) => {
+        dispatch({
+          type: "init",
+          fieldName: [
+            "pot_name",
+            "pot_organizer",
+            "contribution_amount",
+            "total_pot_amount",
+            "particpants",
+          ],
+          payload: response.data,
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
       });
-    });
   }, [id]);
-
-  // if (initialValue.pot_object.length === 0) {
-  //   return (
-  //     <div>
-  //       <h1>
-  //         Sorry, money pot could not be found. Please check your id and try
-  //         again.
-  //       </h1>
-  //     </div>
-  //   );
-  // }
 
   return (
     <div>
-      <h1> We found your pot!</h1>
+      <header className="found-header">
+        <div className="header-text find-gradient">
+          <h3>found pot</h3>
+        </div>
+      </header>
       <Box
         component="form"
         sx={{
@@ -135,7 +127,6 @@ function ViewFound() {
         }}
       >
         <TextField
-          id="standard-basic"
           label="Money Pot Name"
           variant="outlined"
           multiline={true}
@@ -149,7 +140,6 @@ function ViewFound() {
           }}
         />
         <TextField
-          id="standard-basic"
           label="Pot Organizer"
           variant="outlined"
           multiline={true}
@@ -163,7 +153,6 @@ function ViewFound() {
           }}
         />
         <TextField
-          id="standard-basic"
           label="Indivdual Contribution Amount"
           variant="outlined"
           multiline={true}
@@ -180,14 +169,11 @@ function ViewFound() {
           }}
         />
         <TextField
-          id="standard-basic"
           label="Total Pot Amount Per Month"
           variant="outlined"
           multiline={true}
           InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">USD</InputAdornment>
-            ),
+            startAdornment: <InputAdornment position="start">$</InputAdornment>,
           }}
           value={total_pot_amount}
           onChange={(event) => {
@@ -203,21 +189,8 @@ function ViewFound() {
       {particpants
         ?.sort((a, b) => (a.position > b.position ? 1 : -1))
         .map((person, i) => {
-          return (
-            <div>
-              {/* <Box
-                  component="form"
-                  sx={{
-                    "& > :not(style)": { m: 1, width: "25ch" },
-                  }}
-                > */}
-
-              {style_person(person, i)}
-              {/* </Box> */}
-            </div>
-          );
+          return <div key={i}>{style_person(person, i)}</div>;
         })}
-      <br />
       <Divider />
       <Box
         sx={{
@@ -231,7 +204,7 @@ function ViewFound() {
       >
         <ButtonGroup
           variant="outlined"
-          disabled="true"
+          disabled={true}
           aria-label="outlined button group"
         >
           <Button>Submit Changes</Button>

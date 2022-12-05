@@ -15,12 +15,13 @@ function DeleteCard() {
   const handleClose = () => setOpen(false);
 
   const deleteMoneyPot = async () => {
-    console.log(id);
+    if (id === "" || id.length !== 24) {
+      alert("Enter a valid id");
+      return;
+    }
     const res = await Axios.delete("http://localhost:8080/delete", {
       data: { _id: id },
     });
-
-    console.log(res.data);
     setModalDescription(res.data);
     handleOpen();
   };
@@ -34,18 +35,19 @@ function DeleteCard() {
       </div>
       <div className="card-body card-shadow">
         <TextField
-          id="standard-basic"
           label="Money Pot ID"
           variant="standard"
           required
           size="small"
+          multiline
+          rows={2}
           onChange={(event) => {
             setId(event.target.value);
           }}
         />
         <br />
         <br />
-        <Button onClick={deleteMoneyPot} variant="contained">
+        <Button onClick={deleteMoneyPot} variant="contained" color="error">
           Submit
         </Button>
         <Modal

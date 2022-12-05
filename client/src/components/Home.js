@@ -10,6 +10,11 @@ function Home() {
         <FindCard />
         <CreateCard />
       </div>
+
+      <footer className="footer">
+        {" "}
+        built by nick and will | CPSC 362 | Fall 2022
+      </footer>
     </div>
   );
 }

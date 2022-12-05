@@ -109,12 +109,13 @@ function CreateView() {
 
   function postPot() {
     if (isEmpty() === true) {
-      dispatch({
-        type: "field",
-        fieldName: "showMessage",
-        payload: "please complete all required fields",
-      });
-      presentModal();
+      // dispatch({
+      //   type: "field",
+      //   fieldName: "showMessage",
+      //   payload: "please complete all required fields",
+      // });
+      // presentModal();
+      alert("please complete all required fields");
       return;
     }
     Axios.post("http://localhost:8080/create", state)
@@ -210,7 +211,11 @@ function CreateView() {
 
   return (
     <div>
-      <h1>Pot Details</h1>
+      <header className="found-header">
+        <div className="header-text create-gradient">
+          <h3>create pot</h3>
+        </div>
+      </header>
       <div>
         <div className="potName">
           <TextField
@@ -284,7 +289,8 @@ function CreateView() {
         <br />
         <br />
         <h4>Add a Person</h4>
-        <br></br>
+        <br />
+        <br />
       </div>
       <div className="content">
         <form onSubmit={handleSubmit} onChange={handleChange}>
@@ -319,11 +325,10 @@ function CreateView() {
             </div>
           </div>
         </form>
+        <Button variant="contained" onClick={postPot} color="success">
+          Submit
+        </Button>
       </div>
-      <br />
-      <Button variant="contained" onClick={postPot} color="success">
-        Submit
-      </Button>
       <Modal open={showModal} onClose={closeModal}>
         <Box>
           <div className="modal-gradient">
