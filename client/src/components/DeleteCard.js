@@ -7,18 +7,6 @@ import Box from "@mui/material/Box";
 
 //TODO: add data validation to text field
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  backgroundColor: "#ffffff",
-  boxShadow: 24,
-  borderRadius: "20px",
-  p: 4,
-};
-
 function DeleteCard() {
   const [id, setId] = useState("");
   const [modalDescription, setModalDescription] = useState("");

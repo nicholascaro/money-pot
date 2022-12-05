@@ -4,6 +4,8 @@ import Axios from "axios";
 import React, { useReducer } from "react";
 import InputAdornment from "@mui/material/InputAdornment";
 import TaskList from "./participantsList";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
 
 function CreateView() {
   let PotObject = {
@@ -11,6 +13,8 @@ function CreateView() {
     pot_organizer: "",
     contribution_amount: undefined,
     total_pot_amount: undefined,
+    showModal: false,
+    showMessage: "",
     participants: [
       {
         index: Math.random(),
@@ -29,6 +33,8 @@ function CreateView() {
     contribution_amount,
     total_pot_amount,
     participants,
+    showModal,
+    showMessage,
   } = state;
 
   function reducer(state, action) {
@@ -65,20 +71,65 @@ function CreateView() {
             state.participants.length * state.contribution_amount,
         };
       }
+      case "ShowModal": {
+        return {
+          ...state,
+          showModal: true,
+        };
+      }
+
+      case "HideModal": {
+        return {
+          ...state,
+          showModal: false,
+        };
+      }
+
+      case "clearForm": {
+        return {
+          ...state,
+          pot_name: "",
+          pot_organizer: "",
+          contribution_amount: undefined,
+          total_pot_amount: undefined,
+          participants: [
+            {
+              index: Math.random(),
+              name: "",
+              date: "",
+              position: "",
+            },
+          ],
+        };
+      }
       default:
         return state;
     }
   }
 
-  function postPot2() {
-    console.log(state);
+  function postPot() {
+    if (isEmpty() === true) {
+      dispatch({
+        type: "field",
+        fieldName: "showMessage",
+        payload: "please complete all required fields",
+      });
+      presentModal();
+      return;
+    }
     Axios.post("http://localhost:8080/create", state)
       .then(function (response) {
         console.log(response);
+        dispatch({
+          type: "field",
+          fieldName: "showMessage",
+          payload: response.data,
+        });
       })
       .catch(function (error) {
         console.log(error);
       });
+    presentModal();
   }
 
   const handleChange = (e) => {
@@ -95,7 +146,6 @@ function CreateView() {
   };
 
   const addNewRow = () => {
-    console.log("new field");
     let newField = {
       index: Math.random(),
       name: "",
@@ -112,8 +162,41 @@ function CreateView() {
     });
   };
 
-  const handleSubmit = (e) => {};
+  function isEmpty() {
+    if (
+      state.pot_name === "" ||
+      state.pot_organizer === "" ||
+      state.contribution_amount === undefined ||
+      state.total_pot_amount === undefined
+    ) {
+      return true;
+    }
+    return false;
+  }
+  const handleSubmit = (e) => {
+    e.target.reset();
+  };
+  const closeModal = () => {
+    dispatch({
+      type: "HideModal",
+    });
+    dispatch({
+      type: "field",
+      fieldName: "showMessage",
+      payload: "",
+    });
+    if (isEmpty() === false) {
+      dispatch({
+        type: "clearForm",
+      });
+    }
+  };
 
+  const presentModal = () => {
+    dispatch({
+      type: "ShowModal",
+    });
+  };
   const clickOnDelete = (record) => {
     dispatch({
       type: "delete",
@@ -238,9 +321,17 @@ function CreateView() {
         </form>
       </div>
       <br />
-      <Button variant="contained" onClick={postPot2} color="success">
+      <Button variant="contained" onClick={postPot} color="success">
         Submit
       </Button>
+      <Modal open={showModal} onClose={closeModal}>
+        <Box>
+          <div className="modal-gradient">
+            <h4>Status</h4>
+            <h5>{showMessage}</h5>
+          </div>
+        </Box>
+      </Modal>
     </div>
   );
 }
