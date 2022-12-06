@@ -4,21 +4,23 @@
 
 ### Project Description
 
-### How To Run
+### How To Run Via Terminal
 
-#### Requirements
-- npm
-- maven
-  - you can install via homebrew `brew install maven`
+##### Requirements
+- Npm
+- Node (npm will be installed with node)
+  - You can install view homebrew `brew install node`
+- Maven
+  - You can install via homebrew `brew install maven`
 
 ##### How to Run Client
-1. `cd client`
-2. Install dependecies fron package.json `npm init`
-3. `npm start`
+1. From project root `cd client`
+2. (Only needs to be done once) Install dependecies fron package.json `npm init`
+3. To start client `npm start`
 
 ##### How to Run Server
-1. `cd server`
-2. `mvn spring-boot:run`
+1. From project root `cd server`
+2. To start the server `mvn spring-boot:run`
 ### Features
 
 ### Bugs To Fix
