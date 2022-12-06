@@ -12,8 +12,8 @@
   - you can install via homebrew `brew install maven`
 
 ##### How to Run Client
-1. Install dependecies fron package.json `npm init`
-2. `cd client`
+1. `cd client`
+2. Install dependecies fron package.json `npm init`
 3. `npm start`
 
 ##### How to Run Server
