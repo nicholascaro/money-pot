@@ -25,11 +25,6 @@ function FindCard() {
       return;
     });
 
-    if (res.data === undefined) {
-      alert("money pot with this id does not exist");
-      return;
-    }
-
     navigate({
       pathname: "found",
       search: createSearchParams({
