@@ -7,7 +7,9 @@ Our application is a rotating savings account manager.
 
 A rotating savings and credit association (ROSCA) is a group of individuals who together act as an informal financial institution. A ROSCA uses a common fund to which individuals contribute a set amount regularly (usually monthly), while one member withdraws the funds at each meeting (Investopidia). 
 
-Users can use our application to create, find, and delete their rotating savings account (in our app we call them money-pots)
+Users can use our application to create, find, and delete their rotating savings account (in our app we call them money pots)
+
+Our client and server run locally on different points. Money pots are stored in our MongoDb database via api requests. 
 
 ### How To Run Via Terminal
 
