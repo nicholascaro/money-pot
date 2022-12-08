@@ -29,7 +29,7 @@ Our client and server run locally on different points. Money pots are stored in 
 1. From project root `cd server`
 2. Build Spring Boot Project with Maven `mvn package`
 3. To start the server `mvn spring-boot:run`
-### Features
+
 
 ### Bugs To Fix
 - No error handling that position input is a valid int and that there are no duplicates
