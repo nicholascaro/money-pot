@@ -22,7 +22,7 @@ Our client and server run locally on different ports. Money pots are stored in o
 
 ##### How to Run Client
 1. From project root `cd client`
-2. (Only needs to be done once) Install dependecies fron package.json `npm install`
+2.  Install dependecies fron package.json (Only needs to be done once)`npm install`
 3. To start client `npm start`
 
 ##### How to Run Server
