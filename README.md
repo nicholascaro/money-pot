@@ -9,7 +9,7 @@ A rotating savings and credit association (ROSCA) is a group of individuals who 
 
 Users can use our application to create, find, and delete their rotating savings account (in our app we call them money pots)
 
-Our client and server run locally on different points. Money pots are stored in our MongoDb database via api requests. 
+Our client and server run locally on different ports. Money pots are stored in our MongoDb database via api requests. 
 
 ### How To Run Via Terminal
 
