@@ -15,7 +15,7 @@
 
 ##### How to Run Client
 1. From project root `cd client`
-2. (Only needs to be done once) Install dependecies fron package.json `npm init`
+2. (Only needs to be done once) Install dependecies fron package.json `npm install`
 3. To start client `npm start`
 
 ##### How to Run Server
